@@ -1,0 +1,3 @@
+name: pulumi-rke
+runtime: nodejs
+description: Pulumi infra for rke nodes
