@@ -36,9 +36,9 @@ let template = dc.apply(dc => vsphere.getVirtualMachine({
 }));
 
 
-//Create rke-01 VMs
+//Create rke-worker01 VMs
 
-let rke01 = new vsphere.VirtualMachine("rke-01.kr1ps.com", {
+let worker01 = new vsphere.VirtualMachine("rke-worker01.kr1ps.com", {
     resourcePoolId: resourcePool.id,
     datastoreId: datastoreId.id,
     folder: folder.path,
@@ -63,11 +63,11 @@ let rke01 = new vsphere.VirtualMachine("rke-01.kr1ps.com", {
             ipv4Gateway: "172.18.0.1",
             linuxOptions: {
                 domain: "kr1ps.com",
-                hostName: "rke-01"
+                hostName: "rke-worker01"
             },
             networkInterfaces: [{
                 dnsDomain: "kr1ps.com",
-                ipv4Address: "172.18.0.21",
+                ipv4Address: "172.18.0.55",
                 ipv4Netmask: 24,
                 dnsServerLists: ["172.18.0.1"]
             }]
@@ -75,9 +75,9 @@ let rke01 = new vsphere.VirtualMachine("rke-01.kr1ps.com", {
     },
 });
 
-//Create rke-02 VMs
+//Create rke-worker02 VMs
 
-let rke02 = new vsphere.VirtualMachine("rke-02.kr1ps.com", {
+let worker02 = new vsphere.VirtualMachine("rke-worker02.kr1ps.com", {
     resourcePoolId: resourcePool.id,
     datastoreId: datastoreId.id,
     folder: folder.path,
@@ -102,11 +102,11 @@ let rke02 = new vsphere.VirtualMachine("rke-02.kr1ps.com", {
             ipv4Gateway: "172.18.0.1",
             linuxOptions: {
                 domain: "kr1ps.com",
-                hostName: "rke-02"
+                hostName: "rke-worker02"
             },
             networkInterfaces: [{
                 dnsDomain: "kr1ps.com",
-                ipv4Address: "172.18.0.22",
+                ipv4Address: "172.18.0.56",
                 ipv4Netmask: 24,
                 dnsServerLists: ["172.18.0.1"]
             }]
@@ -115,9 +115,9 @@ let rke02 = new vsphere.VirtualMachine("rke-02.kr1ps.com", {
 });
 
 
-//Create rke-03 VMs
+//Create rke-worker03 VMs
 
-let rke03 = new vsphere.VirtualMachine("rke-03.kr1ps.com", {
+let worker03 = new vsphere.VirtualMachine("rke-worker03.kr1ps.com", {
     resourcePoolId: resourcePool.id,
     datastoreId: datastoreId.id,
     folder: folder.path,
@@ -142,11 +142,50 @@ let rke03 = new vsphere.VirtualMachine("rke-03.kr1ps.com", {
             ipv4Gateway: "172.18.0.1",
             linuxOptions: {
                 domain: "kr1ps.com",
-                hostName: "rke-03"
+                hostName: "rke-worker03"
             },
             networkInterfaces: [{
                 dnsDomain: "kr1ps.com",
-                ipv4Address: "172.18.0.23",
+                ipv4Address: "172.18.0.57",
+                ipv4Netmask: 24,
+                dnsServerLists: ["172.18.0.1"]
+            }]
+        }
+    },
+});
+
+//Create rke-master01 VMs
+
+let master01 = new vsphere.VirtualMachine("rke-master01.kr1ps.com", {
+    resourcePoolId: resourcePool.id,
+    datastoreId: datastoreId.id,
+    folder: folder.path,
+    numCpus: 4,
+    memory: 4096,
+    guestId: template.guestId,
+    networkInterfaces: [{
+        networkId: networkId.id,
+        adapterType: template.networkInterfaceTypes[0],
+    }],
+    disks: [{
+        label: "disk0",
+        size: template.disks[0].size,
+        eagerlyScrub: template.disks[0].eagerlyScrub,
+        thinProvisioned: template.disks[0].thinProvisioned,
+    }],
+    clone: {
+        templateUuid: template.id,
+        customize: {
+            dnsServerLists: ["172.18.0.1"],
+            dnsSuffixLists: ["kr1ps.com"],
+            ipv4Gateway: "172.18.0.1",
+            linuxOptions: {
+                domain: "kr1ps.com",
+                hostName: "rke-master01"
+            },
+            networkInterfaces: [{
+                dnsDomain: "kr1ps.com",
+                ipv4Address: "172.18.0.50",
                 ipv4Netmask: 24,
                 dnsServerLists: ["172.18.0.1"]
             }]
