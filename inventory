@@ -1,15 +1,19 @@
-# Virtual rke Servers
-[k8s01]
-rke-01.kr1ps.com
-rke-02.kr1ps.com
-rke-03.kr1ps.com
+# Virtual rke master servers
+[k8smaster]
+rke-master01.kr1ps.com
+
+# Virtual rke worker servers
+[k8sworker]
+rke-worker01.kr1ps.com
+rke-worker02.kr1ps.com
+rke-worker03.kr1ps.com
 
 
 
 # All Server
 [all:children]
-k8s01
-
+k8smaster
+k8sworker
 
 # Variables for all the servers
 [all:vars]

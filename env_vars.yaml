@@ -1,0 +1,44 @@
+##################################################
+##################################################
+###               RKE2 Configs                 ###
+##################################################
+##################################################
+
+WATCHDIR: "/var/lib/rancher/rke2/server/manifests"
+CONFDIR: "/etc/rancher/rke2"
+CONFFILE: "{{ CONFDIR }}/config.yaml"
+SERVER_FAILOVER_IP: "172.18.0.49" # Replace with your failover floating IP address.
+SERVER_ADDRESS_SHORT: "kube-vip" # Hostname pointed to failover floating IP (w.x.y.z), change with yours.
+SERVER_ADDRESS_FQDN: "kube-vip.kr1ps.com" # FQDN pointed to failover floating IP (w.x.y.z), change with yours.
+
+##################################################
+##################################################
+###               RKE2 Version                 ###
+##################################################
+##################################################
+
+INSTALL_RKE2_VERSION: "v1.22.4+rke2r2" # Change with your preferred version.
+
+##################################################
+##################################################
+###                kube-vip                    ###
+##################################################
+##################################################
+
+INTERFACE: "ens192" # Change with yor IFACE
+VIP: "{{ SERVER_FAILOVER_IP }}"
+CONTAINER_RUNTIME_ENDPOINT: "unix:///run/k3s/containerd/containerd.sock"
+CONTAINERD_ADDRESS: "/run/k3s/containerd/containerd.sock"
+KUBE_VIP_IMAGE: "docker.io/plndr/kube-vip"
+KUBE_VIP_IMAGE_TAG: "latest"
+
+
+##################################################
+##################################################
+###                user vars                   ###
+##################################################
+##################################################
+ansible_ssh_user: krips
+ansible_ssh_private_key: ~/.ssh/id_ed25519
+#ansible_sudo_pass:
+ansible_ssh_port: 2004
