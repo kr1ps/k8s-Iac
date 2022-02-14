@@ -5,7 +5,7 @@ Local K8s iac with pulumi + ansible
 
 ## Installation
 
-# first master node
+### first master node
 
 
 ```bash
