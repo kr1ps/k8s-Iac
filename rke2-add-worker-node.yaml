@@ -1,4 +1,4 @@
-- name: install rke2 agent node
+- name: install rke2 worker node
   hosts: k8sworker # Including all hosts and excluding the master nodes.
   become: true
   vars_files:

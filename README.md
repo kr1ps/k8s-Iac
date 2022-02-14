@@ -17,14 +17,11 @@ ansible-playbook -i inventory rke2-install-server.yml
 ```bash
 # The ansible command to encrypt the the token
 ansible-vault encrypt ./token.env
-New Vault password:
-Confirm New Vault password:
-Encryption successful
 ```
 
 ### 3- Install workers
 
 ```bash
-# The ansible command to install kube-vip on the first master node.
-ansible-playbook -i inventory kube-vip.yaml
+# The ansible command to install the workers node with the --ask-vault-pass for decrypt token.env file.
+ansible-playbook -i inventory rke2-add-worker-node.yaml --ask-vault-pass
 ```
