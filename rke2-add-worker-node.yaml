@@ -1,9 +1,9 @@
-- name: install rke2 server
-  hosts: ~example-host[2-3]
+- name: install rke2 agent node
+  hosts: k8sworker # Including all hosts and excluding the master nodes.
   become: true
   vars_files:
     - env_vars.yaml
-    - token.enc  # The encrypted TOKEN file, later it is decrypted in the command-line with the --ask-vault-pass option.
+    - token.env  # The encrypted TOKEN file, later it is decrypted in the command-line with the --ask-vault-pass option.
 
   tasks:
   - name: create directories if they don't exist
@@ -16,7 +16,6 @@
       recurse: yes
     loop:
       - "{{ CONFDIR }}"
-      - "{{ WATCHDIR }}"
 
   - name: get hostname short
     shell: |
@@ -38,29 +37,25 @@
       dest: "{{ CONFFILE }}"
       content: |
         token: {{ TOKEN }}
-        server: https://{{ SERVER_ADDRESS_FQDN }}:9345
+        server: https://{{ MASTERNODE_ADDRESS_FQDN }}:9345
         tls-san:
           - "{{ hostname_short.stdout }}"
           - "{{ hostname_fqdn.stdout }}"
-          - "{{ SERVER_ADDRESS_SHORT }}"
-          - "{{ SERVER_ADDRESS_FQDN }}"
-          - "{{ SERVER_FAILOVER_IP }}"
-    notify: "rke2-server service restart"
-
-  - name: Installing rke2 server
+        
+  - name: Installing rke2 agent
     shell: |
       curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_VERSION="{{ INSTALL_RKE2_VERSION }}" sh -
-    notify: "rke2-server service start"
+    notify: "rke2-agent service start"
 
   handlers:
   - name: Make sure a service unit is running
     systemd:
       state: started
-      name: rke2-server
-    listen: "rke2-server service start"
+      name: rke2-agent
+    listen: "rke2-agent service start"
 
   - name: Make sure a service unit is restarted
     ansible.builtin.systemd:
       state: restarted
-      name: rke2-server
-    listen: "rke2-server service restart"
+      name: rke2-agent
+    listen: "rke2-agent service restart"

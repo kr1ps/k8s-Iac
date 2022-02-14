@@ -39,9 +39,6 @@
         tls-san:
           - "{{ hostname_short.stdout }}"
           - "{{ hostname_fqdn.stdout }}"
-          - "{{ SERVER_ADDRESS_SHORT }}"
-          - "{{ SERVER_ADDRESS_FQDN }}"
-          - "{{ SERVER_FAILOVER_IP }}"
         
         cni: "canal" # optional
     notify: "rke2-server service restart"

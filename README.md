@@ -12,7 +12,17 @@ Local K8s iac with pulumi + ansible
 ansible-playbook -i inventory rke2-install-server.yml
 ```
 
-### 2- Install kube-vip on first master node (optional, just if you will have more than 3 node)
+### 2- Encrypt the node token in the token.env file
+
+```bash
+# The ansible command to encrypt the the token
+ansible-vault encrypt ./token.env
+New Vault password:
+Confirm New Vault password:
+Encryption successful
+```
+
+### 3- Install workers
 
 ```bash
 # The ansible command to install kube-vip on the first master node.
