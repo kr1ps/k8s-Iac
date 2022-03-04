@@ -1,6 +1,6 @@
 config:
   vsphere:allowUnverifiedSsl: "true"
   vsphere:password:
-    secure: AAABAONbkhA7f50LH9aNiHNAIsAc1FdWLAyvFlHNdmb7b+QVS8oHlQ==
+    secure: AAABAIZdBwu7gWfzRz5L095kggalkTowj7RLILMkTY4lC1Tv8jMAnQ==
   vsphere:user: administrator@kr1ps.com
   vsphere:vsphere_server: vcsa.kr1ps.com
