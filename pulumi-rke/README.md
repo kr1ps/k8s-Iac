@@ -1,27 +1,27 @@
-# k8s-Iac
-Local K8s iac with pulumi + ansible
+# pulumi iac
+pulumi iac hosts ubuntu base
 
 
 
 ## Installation
 
-### 1- Install the first master node
+### 1- npm install on pulumi-rke dir to get all plugins
 
 ```bash
-# The ansible command to create the first master node.
-ansible-playbook -i inventory rke2-install-server.yml
+npm install
 ```
 
-### 2- Encrypt the node token in the token.env file
+### 2- config the variable to connect to vcenter with "pulumi config set vsphere:" command
 
 ```bash
-# The ansible command to encrypt the the token
-ansible-vault encrypt ./token.env
+pulumi config set vsphere:user administrator@kr1ps.com
+pulumi config set vsphere:allowUnverifiedSsl true
+pulumi config set vsphere:vsphere_server vcsa.kr1ps.com
+pulumi config set vsphere:password P@ssw0rd --secret 
 ```
 
-### 3- Install workers
+### 3- do the "pulumi up" to bring up the infrastructure
 
 ```bash
-# The ansible command to install the workers node with the --ask-vault-pass for decrypt token.env file.
-ansible-playbook -i inventory rke2-add-worker-node.yaml --ask-vault-pass
+pulumi up
 ```
